@@ -41,12 +41,19 @@
 #'
 #' @export
 
-smooth_ecd = function(data, y, adj = 1, color_var = NULL, title = NULL, subtitle = NULL, compare = FALSE) {
+smooth_ecd = function(data, y, adj = 1, color_var = NULL, title = NULL,
+                      subtitle = NULL, compare = FALSE, ylab = NULL) {
 
-  dat <- data
+  dat <- as.data.frame(data) # Ensure data is in df format
 
   y.lab <- deparse(substitute(y))
   y <- enquo(y)
+
+  if(is.null(ylab)){
+    ylab <- y.lab
+  } else {
+
+  }
 
   if(!missing(color_var)){
 
@@ -74,7 +81,7 @@ smooth_ecd = function(data, y, adj = 1, color_var = NULL, title = NULL, subtitle
       geom_line(data=dens, aes(x=x, y=cum.sum, colour = factor(!!color_var))) +
       labs(y = "Exceedance (%)",
            colour = lab.legend,
-           x = y.lab,
+           x = ylab,
            title = title,
            subtitle = subtitle)
 
@@ -88,7 +95,7 @@ smooth_ecd = function(data, y, adj = 1, color_var = NULL, title = NULL, subtitle
     p <- ggplot(data = dat, aes(x = !!y)) +
       geom_line(data=dens, aes(x=x, y=cum.sum), colour = "steelblue") +
       labs(y = "Exceedance (%)",
-           x = y.lab,
+           x = ylab,
            title = title,
            subtitle = subtitle)
 

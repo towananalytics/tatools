@@ -11,7 +11,8 @@ smooth_ecd(
   color_var = NULL,
   title = NULL,
   subtitle = NULL,
-  compare = FALSE
+  compare = FALSE,
+  ylab = NULL
 )
 }
 \arguments{
