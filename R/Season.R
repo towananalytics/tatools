@@ -13,7 +13,9 @@
 #'
 #' #using dplyr
 #' library(dplyr)
-#' waves %>% insert_season(date_time)
+#' waves %>% insert_season
+#'
+#' @export
 
 insert_season <- function(data, date_col, hemis = north){
 

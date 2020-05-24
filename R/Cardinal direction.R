@@ -14,6 +14,7 @@
 #' library(dplyr)
 #' waves %>% insert_cardinal_dir(waves, dir_deg)
 
+#' @export
 
 insert_cardinal_dir <- function(data, dir_col) {
     # Check that data is in decimal degress:

@@ -25,5 +25,6 @@ insert_season(waves, date_time)
 
 #using dplyr
 library(dplyr)
-waves \%>\% insert_season(date_time)
+waves \%>\% insert_season
+
 }

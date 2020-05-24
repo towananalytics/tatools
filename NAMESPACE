@@ -3,6 +3,8 @@
 export(commas)
 export(create_proj_dir)
 export(find_peaks)
+export(insert_cardinal_dir)
+export(insert_season)
 export(smooth_ecd)
 import(dplyr)
 import(ggplot2)
