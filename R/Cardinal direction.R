@@ -19,7 +19,7 @@
 
 insert_cardinal_dir <- function(data, dir_col, abbr = TRUE) {
     # Check that data is in decimal degrees:
-   #if (data[, deparse(substitute(dir_col))] > 360) stop("Directions are not in degrees", FALSE)
+   if (max(data[, deparse(substitute(dir_col))]) > 360 | min(data[, deparse(substitute(dir_col))]) < 0 ) stop("Directions are not in degrees", call. = FALSE)
 
     dat <- data
     dir_col <- enquo(dir_col)
