@@ -21,8 +21,6 @@ commas <- function(x, scinot = FALSE, digits = 2) {
 
   if (scinot == FALSE) options(scipen = 999) else options(scipen = -1)
 
-  # val <- format(x, digits = digits, big.mark = ",")
-
   val <- format(round(as.numeric(x), digits), nsmall=digits, big.mark=",")
 
   options(scipen = scipen_opt)
