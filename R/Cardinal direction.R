@@ -5,7 +5,7 @@
 #' @param data a dataframe containing the data.
 #' @param dir_col direction column to convert to cardinal factor.
 #' @param abbr TRUE/FALSE should the results be abbreviated (N versus North)
-#' @return the original dataframe with the cardinal variable included
+#' @return the original dataframe with the cardinal variable included as a factor
 #' @import dplyr
 #' @examples
 #'
