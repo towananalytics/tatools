@@ -7,11 +7,26 @@
 #' @examples
 #' commas(12345610)
 #' commas(12345610, TRUE)
+#' commas(12345610.09324500, TRUE, digits = 2)
 #' commas(0.123456)
 #' @export
 
-commas <- function(x, scinot = FALSE) {
-  if (scinot == FALSE)  options(scipen=999) else options(scipen=-1)
-  return(format(x, digits = 2, big.mark = ","))
-  options(scipen=1)
-}
+commas <- function(x, scinot = FALSE, digits = 2) {
+
+  if(digits < 0){
+    stop(paste0("digit arg `", digits, "` must be >= 0"))
+  }
+
+  scipen_opt <- getOption("scipen") # The initial scipen option - incase the user has set it
+
+  if (scinot == FALSE) options(scipen = 999) else options(scipen = -1)
+
+  # val <- format(x, digits = digits, big.mark = ",")
+
+  val <- format(round(as.numeric(x), digits), nsmall=digits, big.mark=",")
+
+  options(scipen = scipen_opt)
+
+  return(val)
+
+  }
