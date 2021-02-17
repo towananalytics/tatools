@@ -1,4 +1,4 @@
-#' Insert the cardinal compass direction for given decmimal degress
+#' Insert the cardinal compass direction for given decimal degrees
 #'
 #' This function inserts a new variable "cardinal.dir" into the dataframe passed to it..
 #'
@@ -11,21 +11,21 @@
 #'
 #' insert_cardinal_dir(waves, dir_deg)
 #'
-#' #use with dply
+#' #use with dplyr
 #' library(dplyr)
 #' waves %>% insert_cardinal_dir(waves, dir_deg)
 
 #' @export
 
 insert_cardinal_dir <- function(data, dir_col, abbr = TRUE) {
-    # Check that data is in decimal degress:
+    # Check that data is in decimal degrees:
    #if (data[, deparse(substitute(dir_col))] > 360) stop("Directions are not in degrees", FALSE)
 
     dat <- data
     dir_col <- enquo(dir_col)
-    deparse(substitute(dir_col)) # for labelling
+    deparse(substitute(dir_col)) # for labeling
 
-    if(abbr = TRUE) { # Abbreviated response
+    if(abbr == TRUE) { # Abbreviated response
 
         dat <- dat %>%
                mutate(cardinal.dir = factor(ifelse(!!dir_col >= 0 & !!dir_col <= 22.5,
