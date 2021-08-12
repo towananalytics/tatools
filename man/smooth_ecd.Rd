@@ -2,7 +2,7 @@
 % Please edit documentation in R/SmootheCDF.R
 \name{smooth_ecd}
 \alias{smooth_ecd}
-\title{Create a smoothed Cumulative Distribution Function plot}
+\title{Create a smoothed (theoretical) Cumulative Distribution Function plot}
 \usage{
 smooth_ecd(
   data,
@@ -12,11 +12,13 @@ smooth_ecd(
   title = NULL,
   subtitle = NULL,
   compare = FALSE,
-  ylab = NULL
+  ylab = NULL,
+  coord_flip = FALSE,
+  plot_only = TRUE
 )
 }
 \arguments{
-\item{data}{a dataframe containing the data}
+\item{data}{a dataframe containing the data.}
 
 \item{y}{column reference to determine exceedance entered as an object (without quotes).}
 
@@ -28,25 +30,34 @@ smooth_ecd(
 
 \item{subtitle}{\emph{optional} a subtitle for the resulting plot if required.}
 
-\item{compare}{\emph{optional} logical value to show ggplot's stat_ecdf geom to provide a visual cue and confidence.}
+\item{compare}{\emph{optional} logical value to output the true Empirical Cumulative Distribution Function with the smoothed function, providing a visual comparison.}
+
+\item{coord_flip}{\emph{optional} to flip the X and Y axis for visual preference.}
+
+\item{plot_only}{\emph{optional} when \code{TRUE} a ggtable object is returned without appending the data.}
 }
 \value{
-A list object is returned containing a grob object [["plot"]] for plotting a dataframe [["data"]] for further analysis
+Depending on the argument passed to \code{plot_only} either a list object is returned when \code{plot_only == FALSE} containing a grob object \code{[["plot"]]} for plotting and a dataframe \code{[["data"]]} for further analysis
+. A single plot is returned when \code{plot_only == TRUE}.
 }
 \description{
-This function produces a smoothed eCDF plot.
+This function produces a smoothed (theoretical) eCDF plot.
 }
 \examples{
 data(waves)
 
-plt_a <- smooth_ecd(data = waves,
- compare = TRUE,
+ plt_a <- smooth_ecd(data = waves,
+ y = height_meters)
+
+ plot(plt_a)
+
+ plt_a <- smooth_ecd(data = waves,
  y = height_meters,
- adj = 1)
+ plot_only = FALSE)
 
  plot(plt_a[["plot"]])
 
- ## Add a grouping variable
+ # Add a grouping variable
  library(dplyr)
 
  plt_b <- smooth_ecd(data = waves \%>\%
@@ -54,11 +65,13 @@ plt_a <- smooth_ecd(data = waves,
  y = height_meters,
  color_var = hour,
  adj = 1,
- title = "Wave Height Exceedance",
- subtitle = "By Hour")
+ title = "Wave Height Cumulative Distribution",
+ subtitle = "By Hour",
+ plot_only = FALSE)
 
- # Access the objects
+ # Access the list objects
  plot(plt_b[["plot"]])
+ 
  dat <- plt_b[["data"]]
 
 }
