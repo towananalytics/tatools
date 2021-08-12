@@ -14,7 +14,8 @@ smooth_ecd(
   compare = FALSE,
   ylab = NULL,
   coord_flip = FALSE,
-  plot_only = TRUE
+  plot_only = TRUE,
+  show_percent = FALSE
 )
 }
 \arguments{
@@ -35,6 +36,8 @@ smooth_ecd(
 \item{coord_flip}{\emph{optional} to flip the X and Y axis for visual preference.}
 
 \item{plot_only}{\emph{optional} when \code{TRUE} a ggtable object is returned without appending the data.}
+
+\item{show_percent}{\emph{optional} when \code{TRUE} percentage labels are shown on the y axis instead of probability.}
 }
 \value{
 Depending on the argument passed to \code{plot_only} either a list object is returned when \code{plot_only == FALSE} containing a grob object \code{[["plot"]]} for plotting and a dataframe \code{[["data"]]} for further analysis

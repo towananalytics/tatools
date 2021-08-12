@@ -11,6 +11,7 @@
 #' @param compare \emph{optional} logical value to output the true Empirical Cumulative Distribution Function with the smoothed function, providing a visual comparison.
 #' @param coord_flip \emph{optional} to flip the X and Y axis for visual preference.
 #' @param plot_only \emph{optional} when \code{TRUE} a ggtable object is returned without appending the data.
+#' @param show_percent \emph{optional} when \code{TRUE} percentage labels are shown on the y axis instead of probability.
 #' @import dplyr
 #' @import ggplot2
 #' @importFrom graphics abline plot points text
@@ -53,7 +54,8 @@
 smooth_ecd = function(data, y, adj = 1, color_var = NULL, title = NULL,
                       subtitle = NULL, compare = FALSE, ylab = NULL,
                       coord_flip = FALSE,
-                      plot_only = TRUE) {
+                      plot_only = TRUE,
+                      show_percent = FALSE) {
 
   dat <- as.data.frame(data) # Ensure data is in df format
 
@@ -90,7 +92,7 @@ smooth_ecd = function(data, y, adj = 1, color_var = NULL, title = NULL,
 
     p <- ggplot(data = dat, aes(x = !!y)) +
       geom_line(data=dens, aes(x=x, y=cum.sum, colour = factor(!!color_var))) +
-      labs(y = "Exceedance (%)",
+      labs(y = "Cumulative Distribution",
            colour = lab.legend,
            x = ylab,
            title = title,
@@ -105,7 +107,7 @@ smooth_ecd = function(data, y, adj = 1, color_var = NULL, title = NULL,
 
     p <- ggplot(data = dat, aes(x = !!y)) +
       geom_line(data=dens, aes(x=x, y=cum.sum), colour = "steelblue") +
-      labs(y = "Exceedance (%)",
+      labs(y = "Cumulative Distribution",
            x = ylab,
            title = title,
            subtitle = subtitle)
@@ -116,19 +118,30 @@ smooth_ecd = function(data, y, adj = 1, color_var = NULL, title = NULL,
 
   }
     if(coord_flip == TRUE){
+      
       p <- p + coord_flip()
+      
     }
+  
+  if(show_percent == TRUE){ # Show percentage values on y axis
+    
+    p <- p +
+      # ylim(0, 100) + # Change Exceednace scale for percentages
+      scale_y_continuous(labels = scales::percent)
+    
+  }
+  
   p <- p +
-    ylim(0, 100) + # Change Exceednace scale for percentages
+    # ylim(0, 100) + # Change Exceednace scale for percentages
     xlim(min(dens$x), max(dens$x)) +
     theme_bw()
 
 
   q <- ggplot_build(p)
-  q$data[[1]]$y <- (1-q$data[[1]]$y) * 100 # 1-y to reverse the chart then * 100 to show percentages
+  #q$data[[1]]$y <- (1-q$data[[1]]$y) * 100 # 1-y to reverse the chart then * 100 to show percentages
 
   if(compare == TRUE) { # Plot the stat_ecdf line
-    q$data[[2]]$y <- (1-q$data[[2]]$y) * 100
+   # q$data[[2]]$y <- (1-q$data[[2]]$y) * 100
   }
 
   plt_obj <- ggplot_gtable(q) # reassemble the plot
