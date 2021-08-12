@@ -1,30 +1,37 @@
-#' Create a smoothed Cumulative Distribution Function plot
+#' Create a smoothed (theoretical) Cumulative Distribution Function plot
 #'
-#' This function produces a smoothed eCDF plot.
+#' This function produces a smoothed (theoretical) eCDF plot.
 #'
-#' @param data a dataframe containing the data
+#' @param data a dataframe containing the data.
 #' @param y column reference to determine exceedance entered as an object (without quotes).
 #' @param adj adjustment value for smoothing. Select values between 0 and 1.
 #' @param color_var \emph{optional} a grouping variable entered as an object reference.
 #' @param title \emph{optional} title for resulting plot.
 #' @param subtitle \emph{optional} a subtitle for the resulting plot if required.
-#' @param compare \emph{optional} logical value to show ggplot's stat_ecdf geom to provide a visual cue and confidence.
+#' @param compare \emph{optional} logical value to output the true Empirical Cumulative Distribution Function with the smoothed function, providing a visual comparison.
+#' @param coord_flip \emph{optional} to flip the X and Y axis for visual preference.
+#' @param plot_only \emph{optional} when \code{TRUE} a ggtable object is returned without appending the data.
 #' @import dplyr
 #' @import ggplot2
 #' @importFrom graphics abline plot points text
 #' @importFrom stats quantile density
-#' @return A list object is returned containing a grob object [["plot"]] for plotting a dataframe [["data"]] for further analysis
+#' @return Depending on the argument passed to \code{plot_only} either a list object is returned when \code{plot_only == FALSE} containing a grob object \code{[["plot"]]} for plotting and a dataframe \code{[["data"]]} for further analysis
+#' . A single plot is returned when \code{plot_only == TRUE}.
 #' @examples
 #' data(waves)
+#' 
+#'  plt_a <- smooth_ecd(data = waves,
+#'  y = height_meters)
 #'
-#' plt_a <- smooth_ecd(data = waves,
-#'  compare = TRUE,
+#'  plot(plt_a)
+#'
+#'  plt_a <- smooth_ecd(data = waves,
 #'  y = height_meters,
-#'  adj = 1)
+#'  plot_only = FALSE)
 #'
 #'  plot(plt_a[["plot"]])
 #'
-#'  ## Add a grouping variable
+#'  # Add a grouping variable
 #'  library(dplyr)
 #'
 #'  plt_b <- smooth_ecd(data = waves %>%
@@ -32,17 +39,21 @@
 #'  y = height_meters,
 #'  color_var = hour,
 #'  adj = 1,
-#'  title = "Wave Height Exceedance",
-#'  subtitle = "By Hour")
+#'  title = "Wave Height Cumulative Distribution",
+#'  subtitle = "By Hour",
+#'  plot_only = FALSE)
 #'
-#'  # Access the objects
+#'  # Access the list objects
 #'  plot(plt_b[["plot"]])
+#'  
 #'  dat <- plt_b[["data"]]
 #'
 #' @export
 
 smooth_ecd = function(data, y, adj = 1, color_var = NULL, title = NULL,
-                      subtitle = NULL, compare = FALSE, ylab = NULL) {
+                      subtitle = NULL, compare = FALSE, ylab = NULL,
+                      coord_flip = FALSE,
+                      plot_only = TRUE) {
 
   dat <- as.data.frame(data) # Ensure data is in df format
 
@@ -104,8 +115,10 @@ smooth_ecd = function(data, y, adj = 1, color_var = NULL, title = NULL,
     }
 
   }
-
-  p <- p + coord_flip() +
+    if(coord_flip == TRUE){
+      p <- p + coord_flip()
+    }
+  p <- p +
     ylim(0, 100) + # Change Exceednace scale for percentages
     xlim(min(dens$x), max(dens$x)) +
     theme_bw()
@@ -118,13 +131,22 @@ smooth_ecd = function(data, y, adj = 1, color_var = NULL, title = NULL,
     q$data[[2]]$y <- (1-q$data[[2]]$y) * 100
   }
 
-  hs.deberth <- ggplot_gtable(q) # reassemble the plot
+  plt_obj <- ggplot_gtable(q) # reassemble the plot
 
   # Create a list object containing the data and plot
-  lst.dat <- list(plot = hs.deberth,
+  lst.dat <- list(plot = plt_obj,
                   data = dat)
-  # return(hs.deberth)
-  return(lst.dat)
+  
+  if(plot_only == TRUE){
+    
+    plot(plt_obj)
+    return(plt_obj)
+    
+  } else { # Return list object containing data and plot 
+    
+    return(lst.dat)
+    
+  }
 
 }
 
