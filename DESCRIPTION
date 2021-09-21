@@ -1,10 +1,10 @@
 Package: tatools
 Type: Package
 Title: Functions for data analysis and visualisation
-Version: 0.2.8
+Version: 0.2.9
 Author: Nick Dawe
 Maintainer: Nick Dawe <nick@towananalytics.com>
-Description: tatools provides useful analytics functions for timeseries analysis and
+Description: tatools provides productivity tools for timeseries analysis and
     distribution plotting. It also provides tools for Exploratory Data Analysis and project workflows.
 License: GPL-3
 URL: https://github.com/towananalytics/tatools
