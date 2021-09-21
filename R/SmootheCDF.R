@@ -51,7 +51,7 @@
 #'
 #' @export
 
-smooth_ecd = function(data, y, adj = 1, color_var = NULL, title = NULL,
+smooth_ecd <-  function(data, y, adj = 1, color_var = NULL, title = NULL,
                       subtitle = NULL, compare = FALSE, ylab = NULL,
                       coord_flip = FALSE,
                       plot_only = TRUE,

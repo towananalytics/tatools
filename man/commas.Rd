@@ -4,7 +4,7 @@
 \alias{commas}
 \title{Format large values to include comma separators and rounding}
 \usage{
-commas(x, scinot = FALSE)
+commas(x, scinot = FALSE, digits = 2)
 }
 \arguments{
 \item{x}{numerical value for which to add comma formatting to}
@@ -20,5 +20,6 @@ Format large values to include comma separators and rounding
 \examples{
 commas(12345610)
 commas(12345610, TRUE)
+commas(12345610.09324500, TRUE, digits = 2)
 commas(0.123456)
 }

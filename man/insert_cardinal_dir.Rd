@@ -2,17 +2,19 @@
 % Please edit documentation in R/Cardinal direction.R
 \name{insert_cardinal_dir}
 \alias{insert_cardinal_dir}
-\title{Insert the cardinal compass direction for given decmimal degress}
+\title{Insert the cardinal compass direction for given decimal degrees}
 \usage{
-insert_cardinal_dir(data, dir_col)
+insert_cardinal_dir(data, dir_col, abbr = TRUE)
 }
 \arguments{
-\item{data}{a dataframe containing the data}
+\item{data}{a dataframe containing the data.}
 
-\item{!!dir_col}{direction column to convert to cardinal factor.}
+\item{dir_col}{direction column to convert to cardinal factor.}
+
+\item{abbr}{TRUE/FALSE should the results be abbreviated (N versus North)}
 }
 \value{
-the original dataframe with the cardinal varaible included
+the original dataframe with the cardinal variable included as a factor
 }
 \description{
 This function inserts a new variable "cardinal.dir" into the dataframe passed to it..
@@ -21,7 +23,7 @@ This function inserts a new variable "cardinal.dir" into the dataframe passed to
 
 insert_cardinal_dir(waves, dir_deg)
 
-#use with dply
+#use with dplyr
 library(dplyr)
 waves \%>\% insert_cardinal_dir(waves, dir_deg)
 }

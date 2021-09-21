@@ -9,7 +9,7 @@ cat_num(data, num_col, bins = 4)
 \arguments{
 \item{data}{a dataframe containing the data}
 
-\item{num_col}{is the column name containing the merical values to be binned and labelled.}
+\item{num_col}{is the column name containing the numerical values to be binned and labeled.}
 
 \item{bins}{is the number of bins to assign the categorical labels}
 }
@@ -17,7 +17,7 @@ cat_num(data, num_col, bins = 4)
 the categorical labels as a factor
 }
 \description{
-Numerical data is passed along with the nunber of bins required. A label of binned factor ranges is returned
+Numerical data is passed along with the number of bins required. A label of binned factor ranges is returned
 }
 \examples{
 

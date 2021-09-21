@@ -1,15 +1,18 @@
 
 #' save_xlsx
-#'
+#' @description Wrapper for openxlsx to easily output a data frame as an excel spreadsheet.
 #' @return Saved data frames as .xlsx format to the home folder
-#' @param data Vector of strings containing the name of the data frame objects
-#' @param file.name the name of the output excel file, excluding the extension
-#' @param file.location the path to the save the file, by default, this is the project home folder
-#' @param apply.header Default is FALSE. If enabled, and without header.title arguments, the dataframe object names are inserted in the header title
+#' @param data vector of strings containing the name(s) of data frame objects
+#' @param file.name the file name of the excel file, \emph{excluding} the path and extension details
+#' @param file.location the file path to save the file, by default, this is the project home folder
+#' @param apply.header default is \code{FALSE}. If enabled, and without \code{header.title} arguments, the data frame object names are as the header titles
 #' @param header.title a string vector to override the default data frame object names in the header output. The length of this vector must equal the number of data frames
 #' @param apply.style logical argument to include a standard styling to the output. Styling includes header and body styles
 #' @param start.rows Vector of integers specifying the row index to insert the data. Vector length should equal the number of data frame objects
 #' @param start.cols Vector of integers specifying the column index to insert the data. Vector length should equal the number of data frame objects
+#' @param body.wrap.text wrap body text in table outputs. Logical argument with a default value of \code{FALSE} 
+#' @param body.valign vertical alignment of body text. Default is \code{"center"}, options are \code{"center", "top", "bottom"}. Can be a vector of length 1 or separate arguments for each data frame
+#' @param body.halign horizontal alignment of body text. Default is \code{"left"}, options are \code{"left", "center", "right"}. Can be a vector of length 1 or separate arguments for each data frame
 #' @export
 #' @import openxlsx
 #' @import here
@@ -29,8 +32,8 @@
 #' save_xlsx(data = c("a", "b", "sleep"), apply.header = TRUE)
 #' save_xlsx(data = c("a", "b", "sleep"), apply.header = TRUE, file.location = getwd())
 #' save_xlsx(data = c("a", "b", "sleep"), header.title = c("sheet1 header", "sheeet2 header", "sheet3 header"))
-
-
+#' save_xlsx(data = c("a", "b"), apply.style = TRUE, body.halign = "center")
+#' save_xlsx(data = c("a", "b"), apply.style = TRUE, body.halign = c("center", "right"))
 
 save_xlsx <- function(data = NULL,
                       file.name = NA,
@@ -40,25 +43,41 @@ save_xlsx <- function(data = NULL,
                       apply.style = FALSE,
                       start.rows = NA,
                       start.cols = NA,
-                      ...){
+                      body.wrap.text = FALSE,
+                      body.valign = "center",
+                      body.halign = "left"
+                      ){
+  
+  wb <- openxlsx::createWorkbook()
+  
+  data.list <- lapply(data, get) # This creates a list of the objects.
+  data.list <- setNames(data.list, data) # This names the elements of the list
   
   colour_pallette <- c("#5F6062", "#008C98", "#982623", "#B2B2B1", "#C49E39",
                        "#295775", "#175E62", "#8E9CA3", "#556670", "#000000")
   
+  if((length(body.halign) != length(data.list)) == TRUE){
+    #If the length of the vector does not equal data frame length then replicate the argument
+    #In case the input vector length is greater than the number of data frames, the first in the sequence is replicated 
+    body.halign <- rep(body.halign[1], length(data.list))
+  }
+  
+  if((length(body.valign) != length(data.list)) == TRUE){
+    #If the length of the vector does not equal data frame length then replicate the argument
+    #In case the input vector length is greater than the number of data frames, the first in the sequence is replicated 
+    body.valign <- rep(body.valign[1], length(data.list))
+  }
+  
+  if((length(body.wrap.text) != length(data.list)) == TRUE){
+    #If the length of the vector does not equal data frame length then replicate the argument
+    #In case the input vector length is greater than the number of data frames, the first in the sequence is replicated 
+    body.wrap.text <- rep(body.wrap.text[1], length(data.list))
+  }
+  
   headerStyle <- openxlsx::createStyle(
     fontSize = 11, fontColour = "#FFFFFF", halign = "center", valign = "center",
     fgFill = colour_pallette[2], border = "TopBottom", borderColour = "#4F81BD", wrapText = TRUE
-    )
-  
-  ## style for body
-  bodyStyle <- openxlsx::createStyle(
-    border = "TopBottom", borderColour = "#4F81BD", valign = "center", halign = "center", wrapText = TRUE
-    )
-
-  wb <- openxlsx::createWorkbook()
-
-  data.list <- lapply(data, get) # This creates a list of the objects.
-  data.list <- setNames(data.list, data) # This names the elements of the list. 
+  )
 
 # Assign start rows and columns if a vector was not provided --------------
   
@@ -90,7 +109,7 @@ save_xlsx <- function(data = NULL,
     
     sheet.name <- names(data.list)[i]
     
-    addWorksheet(wb, sheet.name, gridLines = FALSE)
+    openxlsx::addWorksheet(wb, sheet.name, gridLines = FALSE)
     
     openxlsx::writeData(wb = wb, 
                         x = data.list[i][[1]], 
@@ -108,6 +127,15 @@ save_xlsx <- function(data = NULL,
                          cols = (start.cols[i]:(length(data.list[i][[1]]) + (start.cols[i] - 1))), 
                          gridExpand = FALSE, 
                          stack = TRUE)
+      
+      ## style for body
+      bodyStyle <- openxlsx::createStyle(
+        border = "TopBottom", 
+        borderColour = "#4F81BD", 
+        valign = body.valign[i], 
+        halign = body.halign[i], 
+        wrapText = body.wrap.text[i]
+      )
       
       openxlsx::addStyle(style = bodyStyle, 
                          wb = wb, 

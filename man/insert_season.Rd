@@ -4,17 +4,17 @@
 \alias{insert_season}
 \title{Insert the season into the dataframe passed to the function}
 \usage{
-insert_season(data, date_col, hemis = north)
+insert_season(data, date_col, hemis = south)
 }
 \arguments{
 \item{data}{a dataframe containing the data}
 
 \item{date_col}{Date variable containing the date to be used in calculating season.}
 
-\item{hemis}{Hemishere for calculating season "north" or "south"}
+\item{hemis}{Hemisphere for calculating season "north" or "south"}
 }
 \value{
-the original dataframe with the season varaible included
+the original dataframe with the season variable included
 }
 \description{
 This function produces a season variable stored as a factor.
@@ -25,6 +25,6 @@ insert_season(waves, date_time)
 
 #using dplyr
 library(dplyr)
-waves \%>\% insert_season
+waves \%>\% insert_season(date_time)
 
 }
