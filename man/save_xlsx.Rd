@@ -10,12 +10,17 @@ save_xlsx(
   file.location = NA,
   apply.header = FALSE,
   header.title = NA,
+  header.font.style = "Arial",
+  header.font.size = 12,
+  header.font.colour = "008C98",
   apply.style = FALSE,
+  borders = NA,
   start.rows = NA,
   start.cols = NA,
   body.wrap.text = FALSE,
   body.valign = "center",
-  body.halign = "left"
+  body.halign = "left",
+  withFilter = NA
 )
 }
 \arguments{
@@ -29,7 +34,15 @@ save_xlsx(
 
 \item{header.title}{a string vector to override the default data frame object names in the header output. The length of this vector must equal the number of data frames}
 
+\item{header.font.style}{string vector options are limited to standard font styles}
+
+\item{header.font.size}{integer value}
+
+\item{header.font.colour}{hex colour format without the hash (#) prefix}
+
 \item{apply.style}{logical argument to include a standard styling to the output. Styling includes header and body styles}
+
+\item{borders}{string vector that applies a border style to the output data. Default is "rows". Options are "none", "surrounding", "rows", "columns", "all". Vector length should equal the number of data frame objects}
 
 \item{start.rows}{Vector of integers specifying the row index to insert the data. Vector length should equal the number of data frame objects}
 
@@ -40,6 +53,8 @@ save_xlsx(
 \item{body.valign}{vertical alignment of body text. Default is \code{"center"}, options are \code{"center", "top", "bottom"}. Can be a vector of length 1 or separate arguments for each data frame}
 
 \item{body.halign}{horizontal alignment of body text. Default is \code{"left"}, options are \code{"left", "center", "right"}. Can be a vector of length 1 or separate arguments for each data frame}
+
+\item{withFilter}{vector of logical values to include filters at the column names in the spreadsheet. Default is FALSE. Vector length should equal the number of data frame objects.}
 }
 \value{
 Saved data frames as .xlsx format to the home folder
@@ -61,7 +76,7 @@ save_xlsx(data = c("a", "b", "sleep"), apply.style = TRUE, start.rows = c(1, 2, 
 save_xlsx(data = c("a", "b", "sleep"), apply.style = TRUE, file.name = "new file")
 save_xlsx(data = c("a", "b", "sleep"), apply.header = TRUE)
 save_xlsx(data = c("a", "b", "sleep"), apply.header = TRUE, file.location = getwd())
-save_xlsx(data = c("a", "b", "sleep"), header.title = c("sheet1 header", "sheeet2 header", "sheet3 header"))
+save_xlsx(data = c("a", "b", "sleep"), header.title = c("sheet1 header", "sheet2 header", "sheet3 header"))
 save_xlsx(data = c("a", "b"), apply.style = TRUE, body.halign = "center")
 save_xlsx(data = c("a", "b"), apply.style = TRUE, body.halign = c("center", "right"))
 }
