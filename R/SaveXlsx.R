@@ -1,5 +1,5 @@
 
-#' save_xlsx
+#' Save a data frame to an excel spreadsheet
 #' @description Wrapper for openxlsx to easily output a data frame as an excel spreadsheet.
 #' @return Saved data frames as .xlsx format to the home folder
 #' @param data vector of strings containing the name(s) of data frame objects

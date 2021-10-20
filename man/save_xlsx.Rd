@@ -2,7 +2,7 @@
 % Please edit documentation in R/SaveXlsx.R
 \name{save_xlsx}
 \alias{save_xlsx}
-\title{save_xlsx}
+\title{Save a data frame to an excel spreadsheet}
 \usage{
 save_xlsx(
   data = NULL,

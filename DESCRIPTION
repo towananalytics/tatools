@@ -1,7 +1,7 @@
 Package: tatools
 Type: Package
 Title: Towan Analytics Tools
-Version: 0.2.10
+Version: 0.2.11
 Author: Nick Dawe
 Maintainer: Nick Dawe <nick@towananalytics.com>
 Description: tatools provides productivity tools to support Project workflows including data munging, 
