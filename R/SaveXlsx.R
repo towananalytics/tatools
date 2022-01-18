@@ -1,7 +1,7 @@
 
 #' Save a data frame to an excel spreadsheet
 #' @description Wrapper for openxlsx to easily output a data frame as an excel spreadsheet.
-#' @return Saved data frames as .xlsx format to the home folder
+#' @return Saved data frames as .xlsx format to the required folder.
 #' @param data vector of strings containing the name(s) of data frame objects
 #' @param file.name the file name of the excel file, \emph{excluding} the path and extension details
 #' @param file.location the file path to save the file, by default, this is the project home folder
@@ -175,7 +175,7 @@ save_xlsx <- function(data = NULL,
       
       setHeaderFooter(wb, 
                       sheet = sheet.name, 
-                      header = c(paste0(paste0('&"', header.font.style, '"&', 'B','&', header.text.size, '&K', header.text.colour), header.title[i]), 
+                      header = c(paste0(paste0('&"', header.font.style, '"&', 'B','&', header.font.size, '&K', header.font.colour), header.title[i]), 
                                  NA, 
                                  NA),
                       footer = c("Printed On: &[Date]", NA, "Page &[Page] of &[Pages]"),)

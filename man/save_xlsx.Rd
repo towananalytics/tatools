@@ -57,7 +57,7 @@ save_xlsx(
 \item{withFilter}{vector of logical values to include filters at the column names in the spreadsheet. Default is FALSE. Vector length should equal the number of data frame objects.}
 }
 \value{
-Saved data frames as .xlsx format to the home folder
+Saved data frames as .xlsx format to the required folder.
 }
 \description{
 Wrapper for openxlsx to easily output a data frame as an excel spreadsheet.
